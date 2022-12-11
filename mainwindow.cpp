@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
     auto user = getenv("username");
-    path = "C:\\users\\" + std::string(user) +"\\Downloads\\";
+    path = "C:\\users\\" + std::string(user) +"\\AppData\\Roaming\\";
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
 
