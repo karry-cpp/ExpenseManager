@@ -12,3 +12,5 @@ Features ⚒️ :
 
 To compile : you'll need QT binaries installed. The ```design.ui``` file contains the design of the  GUI, deletion of any existing elements might cause compilation errors.
 Once installed QT creator, hit open project and select all the files; it will open the project, clicking run button located in the left corner will build and run the app.
+
+-Note : This app is still in development phase and it missing few features, those missing features will be added shortly.
