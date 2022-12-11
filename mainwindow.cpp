@@ -11,13 +11,17 @@ MainWindow::MainWindow(QWidget *parent)
 {
 
     ui->setupUi(this);
+    
+    //set the location to create the text file
     auto user = getenv("username");
     path = "C:\\users\\" + std::string(user) +"\\AppData\\Roaming\\";
-    time_t t = time(NULL);
+        
+    //get the current month
+    std::time_t t = time(NULL);
     struct tm tm = *localtime(&t);
 
-    std::string file_path = path + month[tm.tm_mon + 1] + std::to_string(tm.tm_year + 1900) + ".txt";
-    path = file_path;
+    std::string file_path = path + month[tm.tm_mon + 1] + std::to_string(tm.tm_year + 1900) + ".txt";   //creates the file
+    path = file_path;   
     ui->montLabel->setText(QString::fromStdString(month[tm.tm_mon + 1] + ", " + std::to_string(tm.tm_year + 1900)));
 
     std::ifstream file(path);
@@ -43,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->textBrowser->setText(QString::number(spendings));
 }
 
-QPair<QString, QString> MainWindow::aligned(std::string txt)
+QPair<QString, QString> MainWindow::aligned(std::string txt)    //to store the description of expense and the amount in pair format
 {
     std::string intval;
 
@@ -75,7 +79,8 @@ MainWindow::~MainWindow()
         p.first = it->text();
         mapping.push_back(p);
     }
-
+    
+    //update the data on exit
     int i = 0;
     foreach (auto it, amtlist) {
         std::pair<QString, QString> p ;
