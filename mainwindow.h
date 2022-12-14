@@ -17,7 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    QPair<QString, QString> aligned(std::string txt);
+    QPair<QString, QString> part_string(const QString &txt);
 
 
 private slots:
@@ -29,16 +29,25 @@ private slots:
 
     void on_amtWidget_itemClicked(QListWidgetItem *item);
 
+    void on_actionClear_Current_Month_Records_triggered();
+
+
+    void on_expnseEdit_returnPressed();
+
+    void on_editBtn_clicked();
+
+
 private:
     Ui::MainWindow *ui;
-    QListWidgetItem *item;
+    QListWidgetItem *item, *fst_selected, *sec_selected;
     std::vector<std::pair<QString, QString>> mapping;
     std::string path;
+    bool editFlag = false;
     int spendings = 0;
     std::unordered_map<int, std::string> month =
     {
         {1, "January"}, {2,"February"}, {3,"March"}, {4,"April"}, {5,"May"}, {6,"June"},
-                                    {7,"July"}, {10,"August"}, {11,"September"}, {10,"October"}, {11,"November"}, {12,"December"}
+        {7,"July"}, {10,"August"}, {11,"September"}, {10,"October"}, {11,"November"}, {12,"December"}
     };
 
 };

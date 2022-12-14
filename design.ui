@@ -128,9 +128,9 @@
    <widget class="QPushButton" name="closeBtn">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>450</x>
       <y>330</y>
-      <width>131</width>
+      <width>121</width>
       <height>41</height>
      </rect>
     </property>
@@ -146,8 +146,8 @@
    <widget class="QPushButton" name="excelBtn">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>200</y>
+      <x>300</x>
+      <y>330</y>
       <width>141</width>
       <height>41</height>
      </rect>
@@ -203,8 +203,8 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>270</y>
+      <x>300</x>
+      <y>260</y>
       <width>81</width>
       <height>41</height>
      </rect>
@@ -221,8 +221,8 @@
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>270</y>
+      <x>380</x>
+      <y>260</y>
       <width>151</width>
       <height>41</height>
      </rect>
@@ -251,6 +251,24 @@
      <string>Month, Year</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="editBtn">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>200</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Edit</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -271,6 +289,7 @@
      <string>File</string>
     </property>
     <addaction name="actionGet_by_MM_YY"/>
+    <addaction name="actionClear_Current_Month_Records"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -278,6 +297,11 @@
   <action name="actionGet_by_MM_YY">
    <property name="text">
     <string>by Month/Year</string>
+   </property>
+  </action>
+  <action name="actionClear_Current_Month_Records">
+   <property name="text">
+    <string>Clear Current Month Records</string>
    </property>
   </action>
  </widget>

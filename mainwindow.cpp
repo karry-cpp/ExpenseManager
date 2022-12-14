@@ -11,17 +11,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
 
     ui->setupUi(this);
-    
-    //set the location to create the text file
     auto user = getenv("username");
     path = "C:\\users\\" + std::string(user) +"\\AppData\\Roaming\\";
-        
-    //get the current month
-    std::time_t t = time(NULL);
+    std::time_t t = std::time(NULL);
     struct tm tm = *localtime(&t);
 
-    std::string file_path = path + month[tm.tm_mon + 1] + std::to_string(tm.tm_year + 1900) + ".txt";   //creates the file
-    path = file_path;   
+    std::string file_path = path + month[tm.tm_mon + 1] + std::to_string(tm.tm_year + 1900) + ".txt";
+    path = file_path;
     ui->montLabel->setText(QString::fromStdString(month[tm.tm_mon + 1] + ", " + std::to_string(tm.tm_year + 1900)));
 
     std::ifstream file(path);
@@ -36,8 +32,11 @@ MainWindow::MainWindow(QWidget *parent)
     std::string txt;
     while(std::getline(file, txt))
     {
-        auto pr = this->aligned(txt);
+        const QString str = QString::fromStdString(txt);
+        auto pr = this->part_string(str);
 
+        if(pr.second.isEmpty() or pr.first.isEmpty())
+            continue;
         ui->listWidget->addItem(pr.first);
         ui->amtWidget->addItem(pr.second);
         spendings += pr.second.toInt();
@@ -47,20 +46,20 @@ MainWindow::MainWindow(QWidget *parent)
     ui->textBrowser->setText(QString::number(spendings));
 }
 
-QPair<QString, QString> MainWindow::aligned(std::string txt)    //to store the description of expense and the amount in pair format
+QPair<QString, QString> MainWindow::part_string(const QString &txt)
 {
-    std::string intval;
+    QString intval;
 
     for(int i = txt.size()-1; i >= 0; i--)
     {
-        if(!std::isdigit(txt[i]))
+        if(!txt[i].isDigit())
             break;
         intval += txt[i];
     }
 
     std::reverse(intval.begin(), intval.end());
-    auto first = QString::fromStdString(txt.substr(0, txt.size()-intval.size()));
-    auto sec = QString::fromStdString(intval);
+    auto first = QString::fromStdString(txt.toStdString().substr(0, txt.size()-intval.size()));
+    auto sec = (intval);
 
     return {first, sec};
 }
@@ -79,8 +78,7 @@ MainWindow::~MainWindow()
         p.first = it->text();
         mapping.push_back(p);
     }
-    
-    //update the data on exit
+
     int i = 0;
     foreach (auto it, amtlist) {
         std::pair<QString, QString> p ;
@@ -102,12 +100,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_addBtn_clicked()
 {
+
     auto var = ui->expnseEdit->text();
     if(var.isEmpty())
         return;
-    std::string tmp = var.toStdString();
-    auto pair = this->aligned(tmp);
 
+    auto pair = this->part_string(var);
+
+    if(pair.second.isEmpty())
+        return;
     ui->listWidget->addItem(pair.first);
     ui->amtWidget->addItem(pair.second);
     spendings += pair.second.toInt();
@@ -119,6 +120,7 @@ void MainWindow::on_addBtn_clicked()
 
 void MainWindow::on_delBtn_clicked()
 {
+    ui->amtWidget->clearSelection();
     auto val = ui->listWidget->currentIndex();
     auto pair = std::make_pair(ui->listWidget->currentItem()->text(), ui->amtWidget->item(val.row())->text());
     mapping.erase(std::find(mapping.begin(), mapping.end(), pair));
@@ -127,6 +129,8 @@ void MainWindow::on_delBtn_clicked()
     delete ui->amtWidget->item(val.row());
     spendings -= pair.second.toInt();
     ui->textBrowser->setText(QString::number(spendings));
+    ui->listWidget->clearSelection();
+    ui->amtWidget->clearSelection();
 }
 
 
@@ -140,4 +144,36 @@ void MainWindow::on_amtWidget_itemClicked(QListWidgetItem *item)
 {
     ui->amtWidget->clearSelection();
 }
+
+
+void MainWindow::on_actionClear_Current_Month_Records_triggered()
+{
+    ui->listWidget->selectAll();
+    ui->amtWidget->selectAll();
+    ui->listWidget->clear();
+    ui->amtWidget->clear();
+    this->spendings = 0;
+    ui->expnseEdit->setText(QString::number(this->spendings));
+    mapping.clear();
+}
+
+
+void MainWindow::on_expnseEdit_returnPressed()
+{
+    this->on_addBtn_clicked();
+}
+
+
+void MainWindow::on_editBtn_clicked()
+{
+    auto val = ui->listWidget->currentIndex();
+
+    auto pair = std::make_pair(ui->listWidget->currentItem()->text(), ui->amtWidget->item(val.row())->text());
+    ui->expnseEdit->setText(pair.first + " " + pair.second);
+    this->editFlag = true;
+    ui->listWidget->currentItem()->setSelected(1);
+
+}
+
+
 
