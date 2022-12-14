@@ -2,6 +2,11 @@
 An app developed in C++ to help you keep track of your expenses.
 This GUI app is developed with Qt framework in C++.
 
+![main](https://user-images.githubusercontent.com/56465574/207687434-c8967184-8824-4f53-9269-d5b857fcc845.png)
+
+![file](https://user-images.githubusercontent.com/56465574/207687450-23f80db4-a682-4b2f-b3de-8afd6dfc4a5e.png)
+
+
 Features ⚒️ :
 1. Add/modify/delete your daily expenses.
 2. No need to manually open the current record, it will be auto imported and displayed.
