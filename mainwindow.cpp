@@ -3,7 +3,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-
+#include <windows.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -15,6 +15,11 @@ MainWindow::MainWindow(QWidget *parent)
     path = "C:\\users\\" + std::string(user) +"\\AppData\\Roaming\\";
     std::time_t t = std::time(NULL);
     struct tm tm = *localtime(&t);
+
+    QFont f = font();
+    f.setCapitalization(QFont::Capitalize);
+    ui->expnseEdit->setFont(f);
+    ui->listWidget->setFont(f);
 
     std::string file_path = path + month[tm.tm_mon + 1] + std::to_string(tm.tm_year + 1900) + ".txt";
     path = file_path;
@@ -100,7 +105,25 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_addBtn_clicked()
 {
+    if(editFlag)
+    {
+        auto fst = ui->listWidget->currentIndex();
+        auto sec = ui->amtWidget->item(fst.row());
+        auto formed_pair = std::make_pair(ui->listWidget->currentItem()->text(), sec->text());
+        spendings -= formed_pair.second.toInt();
+        auto find_pos = std::find(mapping.begin(), mapping.end(), formed_pair);
 
+        auto pair = this->part_string(ui->expnseEdit->text());
+        *find_pos = pair;
+
+        ui->listWidget->currentItem()->setText(pair.first);
+        ui->amtWidget->item(fst.row())->setText(pair.second);
+        spendings += pair.second.toInt();
+        ui->textBrowser->setText(QString::number(spendings));
+        ui->expnseEdit->clear();
+        editFlag = false;
+        return;
+    }
     auto var = ui->expnseEdit->text();
     if(var.isEmpty())
         return;
@@ -153,7 +176,8 @@ void MainWindow::on_actionClear_Current_Month_Records_triggered()
     ui->listWidget->clear();
     ui->amtWidget->clear();
     this->spendings = 0;
-    ui->expnseEdit->setText(QString::number(this->spendings));
+    ui->expnseEdit->clear();
+    ui->textBrowser->setText(QString::number(this->spendings));
     mapping.clear();
 }
 
@@ -164,6 +188,7 @@ void MainWindow::on_expnseEdit_returnPressed()
 }
 
 
+
 void MainWindow::on_editBtn_clicked()
 {
     auto val = ui->listWidget->currentIndex();
@@ -172,8 +197,20 @@ void MainWindow::on_editBtn_clicked()
     ui->expnseEdit->setText(pair.first + " " + pair.second);
     this->editFlag = true;
     ui->listWidget->currentItem()->setSelected(1);
-
 }
 
 
+void MainWindow::on_actionGet_by_MM_YY_triggered()
+{
 
+    QString file_info;
+    QTextEdit *edit = new QTextEdit();
+    edit->append("Enter the month and year in MMYYYY format");
+    edit->selectAll();
+    edit->setWindowFlags(Qt::Window);
+    edit->show();
+    file_info = edit->toPlainText();
+    edit->close();
+    ui->expnseEdit->setText(file_info);
+
+}

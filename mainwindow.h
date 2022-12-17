@@ -5,10 +5,13 @@
 #include <QMainWindow>
 #include <QListView>
 #include <utility>
+#include <QKeyEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
+
 
 class MainWindow : public QMainWindow
 {
@@ -18,7 +21,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     QPair<QString, QString> part_string(const QString &txt);
-
 
 private slots:
     void on_addBtn_clicked();
@@ -37,9 +39,11 @@ private slots:
     void on_editBtn_clicked();
 
 
+    void on_actionGet_by_MM_YY_triggered();
+
 private:
     Ui::MainWindow *ui;
-    QListWidgetItem *item, *fst_selected, *sec_selected;
+
     std::vector<std::pair<QString, QString>> mapping;
     std::string path;
     bool editFlag = false;
@@ -51,4 +55,5 @@ private:
     };
 
 };
+
 #endif // MAINWINDOW_H
