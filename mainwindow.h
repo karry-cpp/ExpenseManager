@@ -41,9 +41,11 @@ private slots:
 
     void on_actionGet_by_MM_YY_triggered();
 
+    void on_actionGet_by_MM_YY_destroyed();
+
 private:
     Ui::MainWindow *ui;
-
+    QLineEdit *edit;
     std::vector<std::pair<QString, QString>> mapping;
     std::string path;
     bool editFlag = false;

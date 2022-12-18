@@ -18,8 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     QFont f = font();
     f.setCapitalization(QFont::Capitalize);
-    ui->expnseEdit->setFont(f);
+    f.setPointSize(12);
     ui->listWidget->setFont(f);
+    ui->expnseEdit->setFont(f);
 
     std::string file_path = path + month[tm.tm_mon + 1] + std::to_string(tm.tm_year + 1900) + ".txt";
     path = file_path;
@@ -202,15 +203,15 @@ void MainWindow::on_editBtn_clicked()
 
 void MainWindow::on_actionGet_by_MM_YY_triggered()
 {
-
-    QString file_info;
-    QTextEdit *edit = new QTextEdit();
-    edit->append("Enter the month and year in MMYYYY format");
-    edit->selectAll();
+    edit = new QLineEdit();
+    edit->setPlaceholderText("Enter the month and year in MonthYear format");
     edit->setWindowFlags(Qt::Window);
+    edit->setFixedSize(300, 70);
     edit->show();
-    file_info = edit->toPlainText();
-    edit->close();
-    ui->expnseEdit->setText(file_info);
+}
 
+void MainWindow::on_actionGet_by_MM_YY_destroyed()
+{
+    ui->expnseEdit->setText(edit->text());
+    edit->close();
 }
