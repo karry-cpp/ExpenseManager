@@ -2,7 +2,7 @@
 An app developed in C++ to help you keep track of your expenses.
 This GUI app is developed with Qt framework in C++.
 
-<img src="https://user-images.githubusercontent.com/56465574/207687434-c8967184-8824-4f53-9269-d5b857fcc845.png" width="450" /> <img src="https://user-images.githubusercontent.com/56465574/207687450-23f80db4-a682-4b2f-b3de-8afd6dfc4a5e.png" width="500" />
+<img src="https://user-images.githubusercontent.com/56465574/207687434-c8967184-8824-4f53-9269-d5b857fcc845.png" width="400" /> <img src="https://user-images.githubusercontent.com/56465574/207687450-23f80db4-a682-4b2f-b3de-8afd6dfc4a5e.png" width="450" />
 
 
 
